@@ -1,12 +1,17 @@
 import express from "express"
 import dotenv from 'dotenv'
 import conectarDB from "./conifg/db.js"
+import usuarioRoutes from './routes/usuarioRoutes.js'
 
 const app=express()
 
 dotenv.config()
 
 conectarDB()
+
+//Routing , siempre nos referiremos a app, que es el que contiene toda la configuracion de Express
+
+app.use("/api/usuarios",usuarioRoutes)
 
 const PORT = process.env.PORT
 
