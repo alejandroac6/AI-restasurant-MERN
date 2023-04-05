@@ -1,5 +1,6 @@
 import Usuario from "../models/Usuario.js";
 import generarId from "../helpers/generarId.js";
+import generarJWT from "../helpers/generarJWT.js";
 
 
 const registrarUsuario = async(req,res)=>{
@@ -49,7 +50,8 @@ const autenticarUsuario=async(req,res)=>{
         res.json({
         _id:usuario._id,
         nombre: usuario.nombre,
-        email:usuario.email
+        email:usuario.email,
+        token: generarJWT(usuario._id) 
         })
     }else{
         const error= new Error('Contraseña incorrecta')
