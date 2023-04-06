@@ -148,4 +148,19 @@ const nuevoPassword=async(req,res)=>{
     }
 }
 
-export{registrarUsuario,autenticarUsuario,confirmarCuenta,olvidePassword,comprobarToken,nuevoPassword}
+const perfilUsuario =async (req,res)=>{
+    // Aqui ya hemos cargado en el servidor el usuario al autenticalro
+    const {usuario}=req
+    console.log(usuario)
+    
+}
+
+export{
+    registrarUsuario,
+    autenticarUsuario,
+    confirmarCuenta,
+    olvidePassword,
+    comprobarToken,
+    nuevoPassword,
+    perfilUsuario
+}
