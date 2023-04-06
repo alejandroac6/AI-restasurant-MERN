@@ -12,6 +12,12 @@ const TaskSchema = mongoose.Schema({
         required: true,
         trim: true,
     },
+
+    categoria:{
+        type: String,
+        required: true,
+        trim: true,
+    },
     duracion_servicio:{
         type: Number,
         required: true,
