@@ -60,4 +60,60 @@ const autenticarUsuario=async(req,res)=>{
 
 }
 
-export{registrarUsuario,autenticarUsuario}
+const confirmarCuenta= async(req,res)=>{
+    // Extraemos el token de los params de la ruta dinamica
+    const {token}= req.params
+
+    // Detectamos si hay alguno que tenga ese token y que visite la pagina de confirmar cuenta
+    const usuarioConfirmar=await Usuario.findOne({token})
+    console.log(usuarioConfirmar)
+
+    // Si existe el usuario le confirmamos la confirmarCuenta, si no existe enviamos un error
+
+    if (!usuarioConfirmar) {
+        const error = new Error('Usuario no existente')
+        return res.status(404).json({msg: error.message})
+    }
+
+    try {
+        usuarioConfirmar.confirmado=true;
+        usuarioConfirmar.token="";
+        
+        await usuarioConfirmar.save();
+        res.json({msg: 'Usuario Confirmado Correctamente'})
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const olvidePassword = async(req,res)=>{
+    const {email}=req.body;
+
+    console.log(email)
+
+     // comprobar si el usuario existe
+     const usuario= await Usuario.findOne({email})
+     console.log(usuario)
+
+     if (!usuario) {
+         const error= new Error('El Usuario no existe')
+         return res.status(404).json({msg: error.message})
+     }
+
+     try {
+        usuario.token=generarId()
+        await usuario.save()
+        res.json({msg:'Hemos enviado un email a tu cuenta de correo con las instrucciones'})
+        
+     } catch (error) {
+        console.log(error)
+     }
+}
+
+const comprobarToken=async(req,res)=>{
+    const {token}=req.params;
+    
+}
+
+export{registrarUsuario,autenticarUsuario,confirmarCuenta,olvidePassword,comprobarToken}
