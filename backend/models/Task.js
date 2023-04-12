@@ -18,15 +18,27 @@ const TaskSchema = mongoose.Schema({
         required: true,
         trim: true,
     },
-    duracion_servicio:{
+
+    fechaServicio:{
+        type:Date,
+        default: Date.now(),
+    },
+    duracionServicio:{
         type: Number,
         required: true,
+        default:30,
     },
-    autonomo:{
+    creador:{
         type: mongoose.Schema.Types.ObjectId,
         ref:'Autonomo',
         required:true,
     },
+
+    cliente:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref: "Usuario",
+        default:"",
+    }
 },
 {
         // para crear 2 columnas mas, la de tiempo de creacion y la del tiempo de actualizacion

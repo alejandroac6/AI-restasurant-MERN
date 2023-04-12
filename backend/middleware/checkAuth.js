@@ -13,7 +13,7 @@ const checkAuth = async (req,res,next)=>{
         req.headers.authorization.startsWith('Bearer')
         ) {
         try {
-            //req.lheaders.authorization nos da lo siguiente Bearer nqsijnbwqsinbd
+            //req.lheaders.authorization nos da el siguiente Bearer: nqsijnbwqsinbd
             // Nos interesa quedarnos con lo que viene despues del Bearer, despues, lo desodificaremos con jwt
             token = req.headers.authorization.split(" ")[1]
             const decoded = jwt.verify(token,process.env.JWT_SECRET)

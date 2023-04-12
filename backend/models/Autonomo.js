@@ -44,7 +44,14 @@ const AutonomoSchema=mongoose.Schema({
         type: Boolean,
         default: false,
 
-    },   
+    },
+    
+    proximas_visitas:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Task',
+        required: false,
+
+    }]
 },
 {
     // para crear 2 columnas mas, la de tiempo de creacion y la del tiempo de actualizacion
@@ -52,7 +59,7 @@ const AutonomoSchema=mongoose.Schema({
 })
 
 AutonomoSchema.pre('save',async function(next){
-    // cuando estemos editando el perfil, en caso de que no se este modificando el password, que no haga nada, que vaya al siguiente middleware, por eso suamos next
+    // cuando estemos editando el perfil, en caso de que no se este modificando el password, que no haga nada, que vaya al siguiente middleware, por eso ponemos next
 
     if(!this.isModified('password')){
         next()
