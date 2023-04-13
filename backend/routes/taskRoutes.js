@@ -1,5 +1,6 @@
 import {
     categoriaTasks,
+    disponibilidadTask,
     nuevaTask,
     obtenerTask,
     editarTask,
@@ -14,10 +15,18 @@ import {
 // todo lo que tenga relacion con tasks tanto el usuario como el autonomo debe estar autenticado
 import express from 'express'
 import checkAuth from '../middleware/checkAuth.js'
+import autonomoCheckAuth from '../middleware/autonomoCheckAuth.js'
 
 const router = express.Router()
 
 router.get('/',checkAuth,obtenerTask);
+router
+    .route('/crearTarea')
+    .get(autonomoCheckAuth,disponibilidadTask)
+    .post(autonomoCheckAuth,nuevaTask)
+
+
+
 
 
 

@@ -3,6 +3,11 @@ const categoriaTasks = async (req,res) =>{
 
 }
 
+// Genera un calendario con los huecos ocupados o disponibles del autonomo
+const disponibilidadTask =  async (req,res)=>{
+
+}
+
 // Cuando el autonomo crea una nueva tarea
 const nuevaTask =  async (req,res)=>{
 
@@ -50,6 +55,7 @@ const usuarioTasks = async (req,res)=>{
 
 export{
     categoriaTasks,
+    disponibilidadTask,
     nuevaTask,
     obtenerTask,
     editarTask,
