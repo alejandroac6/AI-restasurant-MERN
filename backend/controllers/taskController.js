@@ -11,6 +11,9 @@ const disponibilidadTask =  async (req,res)=>{
 // Cuando el autonomo crea una nueva tarea
 const nuevaTask =  async (req,res)=>{
 
+    console.log('desde nueva task')
+    console.log(req.body)
+
 }
 
 // cuando clicas en la tarea el desplegable con toda la info
@@ -24,7 +27,7 @@ const editarTask=async (req,res)=>{
 }
 
 // cuando el autonomo elimina la tarea
-const eliminarTask=async (req,res)=>{
+const cancelarTask=async (req,res)=>{
 
 }
 
@@ -59,7 +62,7 @@ export{
     nuevaTask,
     obtenerTask,
     editarTask,
-    eliminarTask,
+    cancelarTask,
     solicitarTask,
     aceptarTask,
     declinarTask,

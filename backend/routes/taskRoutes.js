@@ -4,7 +4,7 @@ import {
     nuevaTask,
     obtenerTask,
     editarTask,
-    eliminarTask,
+    cancelarTask,
     solicitarTask,
     aceptarTask,
     declinarTask,
@@ -19,15 +19,28 @@ import autonomoCheckAuth from '../middleware/autonomoCheckAuth.js'
 
 const router = express.Router()
 
-router.get('/',checkAuth,obtenerTask);
+router.get('/',checkAuth,usuarioTasks);
+
+
+router
+    .route('/tasks/:id')
+    .get(checkAuth,obtenerTask)
+    .post(checkauth,solicitarTask)
+    .delete(checkAuth,cancelarTask)
+
+// Estas son las rutas que utilizaran los autonomos para gestionar las tareas
 router
     .route('/crearTarea')
     .get(autonomoCheckAuth,disponibilidadTask)
     .post(autonomoCheckAuth,nuevaTask)
 
+router.get('/gestionarTareas',autonomoCheckAuth,autonomoTasks)
 
-
-
-
+router
+    .route('/gestionarTareas/:id')
+    .get(autonomoCheckAuth,obtenerTask)
+    .put(autonomoCheckAuth,editarTask)
+    .post(autonomoCheckAuth,aceptarTask)
+    .delete(autonomoCheckAuth,declinarTask)
 
 export default router
