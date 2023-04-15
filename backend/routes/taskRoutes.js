@@ -25,7 +25,7 @@ router.get('/',checkAuth,usuarioTasks);
 router
     .route('/tasks/:id')
     .get(checkAuth,obtenerTask)
-    .post(checkauth,solicitarTask)
+    .post(checkAuth,solicitarTask)
     .delete(checkAuth,cancelarTask)
 
 // Estas son las rutas que utilizaran los autonomos para gestionar las tareas

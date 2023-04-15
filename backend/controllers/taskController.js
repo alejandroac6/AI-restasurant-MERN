@@ -11,8 +11,7 @@ const disponibilidadTask =  async (req,res)=>{
 // Cuando el autonomo crea una nueva tarea
 const nuevaTask =  async (req,res)=>{
 
-    console.log('desde nueva task')
-    console.log(req.body)
+
 
 }
 
@@ -53,6 +52,9 @@ const autonomoTasks = async (req,res)=>{
 
 //lista de todas las proximas citas que tiene el usuario
 const usuarioTasks = async (req,res)=>{
+
+    console.log('desde nueva task')
+    console.log(req.body)
 
 }
 
