@@ -37,6 +37,37 @@ const registrarAutonomo = async(req,res)=>{
 }
 
 const autenticarAutonomo = async(req,res)=>{
+    const {email,password}=req.body
+
+    const autonomo = await Autonomo.findOne({email})
+
+    // miramos si el autonomo existe
+    if (!autonomo) {
+        const error= new Error('Autonomo no existente')
+        return res.status(404).json({msg: error.message})       
+    }
+
+    //comprobamos si el autonomo esta confirmado o no
+    if (!autonomo.confirmado) {
+        const error= new Error('Tu cuenta no ha sido confirmada')
+        return res.status(403).json({msg: error.message})
+    }
+
+    // Comprobamos password
+    const checkPassword = await Autonomo.comprobarPassword(password)
+
+    if (checkPassword) {
+        res.json({
+            _id:autonomo._id,
+            nombre: autonomo.nombre,
+            email:autonomo.email,
+            token: generarJWT(autonomo._id)
+        })        
+    } else {
+        const error = new Error('Contraseña incorrecta')
+        return res.status(403).json({msg:error.message})
+        
+    }
 
 
 }
