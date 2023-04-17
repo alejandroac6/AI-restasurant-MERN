@@ -6,7 +6,7 @@ import generarJWT from "../helpers/generarJWT.js"
 
 const registrarAutonomo = async(req,res)=>{
 
-    // evitar usuarios duplicados
+    // evitar autonomos duplicados
     const {email}=req.body
 
     const autonomoExiste=await Autonomo.findOne({email})
@@ -95,23 +95,72 @@ const confirmarCuenta = async(req,res)=>{
 }
 
 const olvidePassword = async(req,res)=>{
+    const {email}=req.body
 
+    const existeAutonomo = await Autonomo.findOne({email})
+
+    // Miramos si el autonomo existe
+    if (!existeAutonomo) {
+        const error= new Error('Autonomo no existente')
+        res.status(404).json({msg:error.message})        
+    }
+
+    try {
+        // Creamos un nuevo autonomo
+        const autonomo = new Autonomo(req.body)
+        autonomo.token=generarId();
+
+        // lo introducimos en la base de datos
+        const autonomoAlmacenado=await autonomo.save()
+        res.json(autonomoAlmacenado)
+
+    } catch (error) {
+        console.log(error)
+        
+    }
 }
 
 const comprobarToken = async(req,res)=>{
+    const{token}=req.params
+    const tokenvalido= await Autonomo.findOne({token})
 
+    if (tokenvalido) {
+        res.json({msg:"Token valido"})
+    }else{
+        const error = new Error('Token no válido')
+        return res.status(404).json({msg: error.message})
+    }
 }
 
 const nuevoPassword = async(req,res)=>{
+    const {token}=req.params;
+    const {password}=req.body;
 
+    // Comprobar que es un token valido
+    const autonomo=await Autonomo.findOne({token});
+
+    if (autonomo) {
+        autonomo.password=password;
+        autonomo.token=''
+
+        try {
+            await autonomo.save()
+            res.json({msg: "Password reseteado correctamente"}) 
+        } catch (error) {
+            console.log(error)
+        }
+    }else{
+        const error = new Error('Token no válido')
+        return res.status(404).json({msg: error.message})
+    }
 }
 
 const perfilAutonomo = async(req,res)=>{
 
+    const {autonomo}=req
+    console.log(autonomo)
+
 }
-
-
-
 
 export {registrarAutonomo,
     autenticarAutonomo,
