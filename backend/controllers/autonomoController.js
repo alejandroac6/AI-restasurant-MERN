@@ -1,4 +1,3 @@
-import mongoose from "mongoose"
 import Autonomo from "../models/Autonomo.js"
 import generarId from "../helpers/generarId.js"
 import generarJWT from "../helpers/generarJWT.js"
@@ -54,7 +53,7 @@ const autenticarAutonomo = async(req,res)=>{
     }
 
     // Comprobamos password
-    const checkPassword = await Autonomo.comprobarPassword(password)
+    const checkPassword = await autonomo.comprobarPassword(password)
 
     if (checkPassword) {
         res.json({
@@ -85,6 +84,8 @@ const confirmarCuenta = async(req,res)=>{
         autonomoConfirmar.confirmado=true
         // Le quitamos el token generado mediante operaciones, cuando haga login le daremos un JWT
         autonomoConfirmar.token=""
+
+        await autonomoConfirmar.save()
         res.json({msg:'Autonomo confirmado correctamente'})
         
     } catch (error) {
@@ -97,22 +98,21 @@ const confirmarCuenta = async(req,res)=>{
 const olvidePassword = async(req,res)=>{
     const {email}=req.body
 
-    const existeAutonomo = await Autonomo.findOne({email})
+    const autonomo = await Autonomo.findOne({email})
 
     // Miramos si el autonomo existe
-    if (!existeAutonomo) {
+    if (!autonomo) {
         const error= new Error('Autonomo no existente')
         res.status(404).json({msg:error.message})        
     }
 
     try {
-        // Creamos un nuevo autonomo
-        const autonomo = new Autonomo(req.body)
+        // Damos un token de validacion al autonomo
         autonomo.token=generarId();
 
         // lo introducimos en la base de datos
-        const autonomoAlmacenado=await autonomo.save()
-        res.json(autonomoAlmacenado)
+        await autonomo.save()
+        res.json({msg:'Hemos enviado un email a tu cuenta de correo con las instrucciones'})
 
     } catch (error) {
         console.log(error)

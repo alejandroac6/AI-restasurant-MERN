@@ -10,7 +10,7 @@ import {registrarAutonomo,
     perfilAutonomo
 } from "../controllers/autonomoController.js";
 
-import checkAuth from "../middleware/checkAuth.js";
+import autonomoCheckAuth from '../middleware/autonomoCheckAuth.js';
 
 // Autenticacion, Registro y Confirmacion de Autonomos
 
@@ -20,6 +20,6 @@ router.get('/confirmar/:token',confirmarCuenta)
 router.post('/olvide-password',olvidePassword)
 router.route('/olvide-password/:token').get(comprobarToken).post(nuevoPassword)
 
-router.get('/perfil',checkAuth,perfilAutonomo)
+router.get('/perfil',autonomoCheckAuth,perfilAutonomo)
 
 export default router
