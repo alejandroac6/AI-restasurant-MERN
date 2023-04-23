@@ -34,11 +34,11 @@ const TaskSchema = mongoose.Schema({
         required:true,
     },
 
-    cliente:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref: "Usuario",
-        default:"",
-    }
+     cliente:{
+         type:mongoose.Schema.Types.ObjectId,
+         ref: "Usuario",
+         default:null,
+     }
 },
 {
         // para crear 2 columnas mas, la de tiempo de creacion y la del tiempo de actualizacion

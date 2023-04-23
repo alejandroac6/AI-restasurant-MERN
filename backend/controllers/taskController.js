@@ -1,3 +1,5 @@
+import Task from "../models/Task.js"
+
 // funcion que se encarga de listar todas las tareas de una categoria
 const categoriaTasks = async (req,res) =>{
 
@@ -10,7 +12,23 @@ const disponibilidadTask =  async (req,res)=>{
 
 // Cuando el autonomo crea una nueva tarea
 const nuevaTask =  async (req,res)=>{
+    const {nombre,descripcion,categoria,fechaServicio,duracionServicio}=req.body
 
+    const {autonomo}=req
+
+    try {
+        const nuevaTarea= new Task({nombre,descripcion,categoria,fechaServicio,duracionServicio,creador:autonomo})
+
+        const tareaAlmacenada=await nuevaTarea.save()
+
+        res.json(tareaAlmacenada)
+        
+    } catch (error) {
+        console.log(error)
+        
+    }
+
+    
 
 
 }
