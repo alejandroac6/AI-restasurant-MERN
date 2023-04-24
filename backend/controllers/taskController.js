@@ -7,6 +7,8 @@ const categoriaTasks = async (req,res) =>{
 
 // Genera un calendario con los huecos ocupados o disponibles del autonomo
 const disponibilidadTask =  async (req,res)=>{
+    const {autonomo}=req
+    res.json(autonomo.franjas_disponibles)
 
 }
 
@@ -65,6 +67,19 @@ const declinarTask=async (req,res)=>{
 
 //lista de todas las proximas tareas que tiene el autonomo
 const autonomoTasks = async (req,res)=>{
+
+    const {autonomo}=req
+
+    console.log(autonomo)
+
+
+    //Consultar en la base de datos todas las tareas que tiene que hacer un autonomo
+
+    const tasks=await Task.find({creador:autonomo.id})
+
+    res.json(tasks)
+
+
 
 }
 

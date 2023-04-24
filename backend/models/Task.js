@@ -21,7 +21,7 @@ const TaskSchema = mongoose.Schema({
 
     fechaServicio:{
         type:Date,
-        default: Date.now(),
+        default: Date.now,
     },
     duracionServicio:{
         type: Number,
