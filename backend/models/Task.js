@@ -38,6 +38,11 @@ const TaskSchema = mongoose.Schema({
          type:mongoose.Schema.Types.ObjectId,
          ref: "Usuario",
          default:null,
+     },
+     confirmada:{
+        type:Boolean,
+        required:true,
+        default:false,
      }
 },
 {

@@ -8,7 +8,7 @@ const categoriaTasks = async (req,res) =>{
 // Genera un calendario con los huecos ocupados o disponibles del autonomo
 const disponibilidadTask =  async (req,res)=>{
     const {autonomo}=req
-    res.json(autonomo.franjas_disponibles)
+    return res.json(autonomo.franjas_disponibles)
 
 }
 
@@ -23,21 +23,28 @@ const nuevaTask =  async (req,res)=>{
 
         const tareaAlmacenada=await nuevaTarea.save()
 
-        res.json(tareaAlmacenada)
+        return res.json(tareaAlmacenada)
         
     } catch (error) {
         console.log(error)
         
     }
 
-    
 
 
 }
 
 // cuando clicas en la tarea el desplegable con toda la info
 const obtenerTask = async (req,res)=>{
+    const {id}=req.params
+    const ExisteTarea= await Task.findOne({_id:id});
 
+    if (!ExisteTarea){
+        const error = new Error('Tarea no existente')
+        return res.status(404).json({msg:error.message})
+    }
+
+    return res.json(ExisteTarea)
 }
 
 // cuando el autonomo tras colgar la tarea pueda editar algunos campos
@@ -70,14 +77,10 @@ const autonomoTasks = async (req,res)=>{
 
     const {autonomo}=req
 
-    console.log(autonomo)
-
-
     //Consultar en la base de datos todas las tareas que tiene que hacer un autonomo
 
     const tasks=await Task.find({creador:autonomo.id})
-
-    res.json(tasks)
+    return res.json(tasks)
 
 
 
