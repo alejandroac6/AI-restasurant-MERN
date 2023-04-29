@@ -39,8 +39,9 @@ router.get('/gestionarTareas',autonomoCheckAuth,autonomoTasks)
 router
     .route('/gestionarTareas/:id')
     .get(autonomoCheckAuth,obtenerTask)
-    .put(autonomoCheckAuth,editarTask)
     .post(autonomoCheckAuth,aceptarTask)
     .delete(autonomoCheckAuth,declinarTask)
+
+router.put('/gestionarTareas/EditarTarea/:id',autonomoCheckAuth,editarTask)
 
 export default router

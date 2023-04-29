@@ -49,6 +49,31 @@ const obtenerTask = async (req,res)=>{
 
 // cuando el autonomo tras colgar la tarea pueda editar algunos campos
 const editarTask=async (req,res)=>{
+    //comprobamos si la tarea existe
+    const{nombre,descripcion,categoria,fechaServicio,duracionServicio}=req.body
+
+    const {id}=req.params
+    console.log(id)
+    const ExisteTarea= await Task.findOne({_id:id});
+
+    if (ExisteTarea) {
+        ExisteTarea.nombre=nombre
+        ExisteTarea.descripcion=descripcion
+        ExisteTarea.fechaServicio=fechaServicio
+        ExisteTarea.duracionServicio=duracionServicio
+
+        try {
+            await ExisteTarea.save()
+            res.json({msg: "Tarea editada correctamente"})
+
+        } catch (error) {
+            console.log(error)            
+        }
+
+    } else {
+        const error = new Error('Tarea no existente')
+        return res.status(404).json({msg:error.message})
+    }
 
 }
 
