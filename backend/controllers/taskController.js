@@ -114,8 +114,29 @@ const cancelarTask=async(req,res)=>{
 
 //cuando el Autonomo acepta la tarea asignada
 const aceptarTask=async (req,res)=>{
+    const {id}=req.params
 
+    //comprobamos que la tarea exista
+    console.log(id)
+    const tarea = await Task.findOne({_id:id})
+
+    console.log(tarea)
+
+    if (tarea) {
+        try {
+            tarea.confirmada= true
+            await tarea.save()
+            res.json({msg: "Tarea confirmada"}) 
+        } catch (error) {
+            console.log(error)            
+        }
+        
+    } else {
+        const error = new Error('Tarea no existente')
+        return res.status(404).json({msg:error.message}) 
+    }
 }
+
 
 //cuando el Autonomo declina la tarea asignada
 const declinarTask=async (req,res)=>{
