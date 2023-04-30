@@ -83,13 +83,14 @@ const eliminarTask=async (req,res)=>{
     const {id}=req.params
 
     //comprobamos que la tarea exista
-    const tarea = Task.findById(id)
+    console.log(id)
+    const tarea = await Task.findOne({_id:id})
 
     console.log(tarea)
 
     if (tarea) {
         try {
-            await tarea.remove()
+            await tarea.deleteOne({_id:id})
             res.json({msg: "Tarea eliminada"}) 
         } catch (error) {
             console.log(error)            
