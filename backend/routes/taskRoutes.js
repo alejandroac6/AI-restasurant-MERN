@@ -4,12 +4,13 @@ import {
     nuevaTask,
     obtenerTask,
     editarTask,
-    cancelarTask,
     solicitarTask,
+    cancelarTask,
     aceptarTask,
     declinarTask,
     autonomoTasks,
     usuarioTasks,
+    eliminarTask,
 } from '../controllers/taskController.js'
 
 // todo lo que tenga relacion con tasks tanto el usuario como el autonomo debe estar autenticado
@@ -42,6 +43,9 @@ router
     .post(autonomoCheckAuth,aceptarTask)
     .delete(autonomoCheckAuth,declinarTask)
 
-router.put('/gestionarTareas/EditarTarea/:id',autonomoCheckAuth,editarTask)
+router
+    .route('/gestionarTareas/EditarTarea/:id')
+    .put(autonomoCheckAuth,editarTask)
+    .delete(autonomoCheckAuth,eliminarTask)
 
 export default router

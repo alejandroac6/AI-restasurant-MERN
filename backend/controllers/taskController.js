@@ -77,13 +77,37 @@ const editarTask=async (req,res)=>{
 
 }
 
-// cuando el autonomo elimina la tarea
-const cancelarTask=async (req,res)=>{
 
+// cuando el autonomo elimina la tarea
+const eliminarTask=async (req,res)=>{
+    const {id}=req.params
+
+    //comprobamos que la tarea exista
+    const tarea = Task.findById(id)
+
+    console.log(tarea)
+
+    if (tarea) {
+        try {
+            await tarea.remove()
+            res.json({msg: "Tarea eliminada"}) 
+        } catch (error) {
+            console.log(error)            
+        }
+        
+    } else {
+        const error = new Error('Tarea no existente')
+        return res.status(404).json({msg:error.message}) 
+    }
 }
 
 // cuando el usuario selecciona franja horaria y solicita el servicio
 const solicitarTask =async (req,res)=>{
+
+}
+
+//cuando el usuario cancela un servicio
+const cancelarTask=async(req,res)=>{
 
 }
 
@@ -94,6 +118,26 @@ const aceptarTask=async (req,res)=>{
 
 //cuando el Autonomo declina la tarea asignada
 const declinarTask=async (req,res)=>{
+    const {id}=req.params
+
+    //comprobamos que la tarea exista
+    console.log(id)
+    const tarea = await Task.findOne({_id:id})
+
+    console.log(tarea)
+
+    if (tarea) {
+        try {
+            await tarea.deleteOne({_id:id})
+            res.json({msg: "Tarea declinada"}) 
+        } catch (error) {
+            console.log(error)            
+        }
+        
+    } else {
+        const error = new Error('Tarea no existente')
+        return res.status(404).json({msg:error.message}) 
+    }
 
 }
 
@@ -119,19 +163,16 @@ const usuarioTasks = async (req,res)=>{
 
 }
 
-export{
-    categoriaTasks,
+export {categoriaTasks,
     disponibilidadTask,
     nuevaTask,
     obtenerTask,
     editarTask,
-    cancelarTask,
     solicitarTask,
+    cancelarTask,
     aceptarTask,
     declinarTask,
     autonomoTasks,
     usuarioTasks,
+    eliminarTask,
 }
-
-
-
