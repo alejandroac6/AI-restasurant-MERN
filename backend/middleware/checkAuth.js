@@ -1,7 +1,10 @@
 import jwt from 'jsonwebtoken'
 import Usuario from '../models/Usuario.js';
 
+
+
 const checkAuth = async (req,res,next)=>{
+    console.log('desde checkouth')
     // La autorizacon se hara mediante el JsonWebTokenError, que lo colocaremos en la url
 
     // Bearer es una convencion que se utiliza para enviar el token
