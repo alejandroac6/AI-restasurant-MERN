@@ -126,14 +126,13 @@ const solicitarTask = async (req, res) => {
 
 //cuando el usuario cancela un servicio, quitar el usuario de la tarea
 const cancelarTask = async (req, res) => {
-    const {id}=req.params
+  const { id } = req.params;
 
   //comprobamos que la tarea exista
   console.log(id);
   const tarea = await Task.findOne({ _id: id });
 
   if (tarea) {
-
     try {
       tarea.cliente = null;
       await tarea.save();
@@ -206,7 +205,15 @@ const autonomoTasks = async (req, res) => {
 
 //lista de todas las proximas citas que tiene el usuario
 const usuarioTasks = async (req, res) => {
-  console.log("desde nueva task");
+  const { usuario } = req;
+
+  const Tareas = await Task.find({ cliente: usuario.id });
+
+  if (Tareas) {
+    return res.json(Tareas);
+  } else {
+    return res.json({ msg: "Solicita tareas" });
+  }
 };
 
 export {
