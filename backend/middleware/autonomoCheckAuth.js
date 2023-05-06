@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken'
 import Autonomo from '../models/Autonomo.js';
 
 const autonomoCheckAuth = async (req,res,next)=>{
+    console.log('desde autonomo checkauth')
     // La autorizacon se hara mediante el JsonWebTokenError, que lo colocaremos en la url
 
     // Bearer es una convencion que se utiliza para enviar el token
@@ -32,7 +33,7 @@ const autonomoCheckAuth = async (req,res,next)=>{
     // en caso de que el usuario no mande un token
     if (!token) {
         const error=new Error('Token no valido')
-        res.status(401).json({msg:error.message})
+        return res.status(401).json({msg:error.message})
     }
     next()
 }

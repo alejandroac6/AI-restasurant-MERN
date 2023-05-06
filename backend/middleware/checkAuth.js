@@ -35,7 +35,7 @@ const checkAuth = async (req,res,next)=>{
     // en caso de que el usuario no mande un token
     if (!token) {
         const error=new Error('Token no valido')
-        res.status(401).json({msg:error.message})
+        return res.status(401).json({msg:error.message})
     }
     next()
 }

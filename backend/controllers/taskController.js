@@ -27,7 +27,6 @@ const nuevaTask = async (req, res) => {
     });
 
     const tareaAlmacenada = await nuevaTarea.save();
-
     return res.json(tareaAlmacenada);
   } catch (error) {
     console.log(error);
@@ -54,14 +53,23 @@ const editarTask = async (req, res) => {
     req.body;
 
   const { id } = req.params;
-  console.log(id);
   const ExisteTarea = await Task.findOne({ _id: id });
+  const { creador } = ExisteTarea;
+  const { autonomo } = req;
+
+  // Miramos si el autonomo que crea la tarea es el que la quiere editar o eliminar
+
+  if (autonomo._id.toString() !== creador.toString()) {
+    const error = new Error("No tienes los permisos para realizar esa accion");
+    return res.status(404).json({ msg: error.message });
+  }
 
   if (ExisteTarea) {
-    ExisteTarea.nombre = nombre;
-    ExisteTarea.descripcion = descripcion;
-    ExisteTarea.fechaServicio = fechaServicio;
-    ExisteTarea.duracionServicio = duracionServicio;
+    ExisteTarea.nombre = nombre || ExisteTarea.nombre;
+    ExisteTarea.descripcion = descripcion || ExisteTarea.descripcion;
+    ExisteTarea.fechaServicio = fechaServicio || ExisteTarea.fechaServicio;
+    ExisteTarea.duracionServicio =
+      duracionServicio || ExisteTarea.duracionServicio;
 
     try {
       await ExisteTarea.save();
@@ -81,6 +89,16 @@ const eliminarTask = async (req, res) => {
 
   //comprobamos que la tarea exista
   const tarea = await Task.findOne({ _id: id });
+
+  const { creador } = tarea;
+  const { autonomo } = req;
+
+  // Miramos si el autonomo que crea la tarea es el que la quiere editar o eliminar
+
+  if (autonomo._id.toString() !== creador.toString()) {
+    const error = new Error("No tienes los permisos para realizar esa accion");
+    return res.status(404).json({ msg: error.message });
+  }
 
   if (tarea) {
     try {
@@ -132,6 +150,14 @@ const cancelarTask = async (req, res) => {
   console.log(id);
   const tarea = await Task.findOne({ _id: id });
 
+  const { usuario } = req;
+  const { cliente } = tarea;
+
+  if (usuario._id.toString() !== cliente.toString()) {
+    const error = new Error("No tienes los permisos para realizar esa accion");
+    return res.status(404).json({ msg: error.message });
+  }
+
   if (tarea) {
     try {
       tarea.cliente = null;
@@ -151,10 +177,17 @@ const aceptarTask = async (req, res) => {
   const { id } = req.params;
 
   //comprobamos que la tarea exista
-  console.log(id);
   const tarea = await Task.findOne({ _id: id });
 
-  console.log(tarea);
+  const { autonomo } = req;
+  const { creador } = tarea;
+
+  // Miramos si el autonomo que crea la tarea es el que la quiere editar o eliminar
+
+  if (autonomo._id.toString() !== creador.toString()) {
+    const error = new Error("No tienes los permisos para realizar esa accion");
+    return res.status(404).json({ msg: error.message });
+  }
 
   if (tarea) {
     try {
@@ -175,10 +208,17 @@ const declinarTask = async (req, res) => {
   const { id } = req.params;
 
   //comprobamos que la tarea exista
-  console.log(id);
   const tarea = await Task.findOne({ _id: id });
 
-  console.log(tarea);
+  const { autonomo } = req;
+  const { creador } = tarea;
+
+  // Miramos si el autonomo que crea la tarea es el que la quiere editar o eliminar
+
+  if (autonomo._id.toString() !== creador.toString()) {
+    const error = new Error("No tienes los permisos para realizar esa accion");
+    return res.status(404).json({ msg: error.message });
+  }
 
   if (tarea) {
     try {
