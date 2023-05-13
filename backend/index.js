@@ -4,6 +4,7 @@ import conectarDB from "./conifg/db.js"
 import usuarioRoutes from './routes/usuarioRoutes.js'
 import autonomoRoutes from './routes/autonomoRoutes.js'
 import taskRoutes from './routes/taskRoutes.js'
+import {errorHandlerMiddleware} from './middleware/controllersMw.js'
 
 const app=express()
 app.use(express.json())
@@ -17,6 +18,9 @@ conectarDB()
 app.use("/api/usuarios",usuarioRoutes)
 app.use("/api/autonomos",autonomoRoutes)
 app.use("/api/tasks",taskRoutes)
+
+//Middleware para el manejo de errores
+app.use(errorHandlerMiddleware);
 
 const PORT = process.env.PORT
 

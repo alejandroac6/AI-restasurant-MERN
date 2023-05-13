@@ -17,6 +17,7 @@ import {
 import express from "express";
 import checkAuth from "../middleware/checkAuth.js";
 import autonomoCheckAuth from "../middleware/autonomoCheckAuth.js";
+import { errorChecked } from "../middleware/controllersMw.js";
 
 const router = express.Router();
 
@@ -24,7 +25,7 @@ router.get("/", checkAuth, usuarioTasks);
 
 router
   .route("/:id")
-  .get(checkAuth,obtenerTask)
+  .get(checkAuth,errorChecked(obtenerTask))
   .post(checkAuth,solicitarTask)
   .put(checkAuth,cancelarTask);
 

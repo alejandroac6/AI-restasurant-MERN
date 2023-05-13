@@ -38,10 +38,10 @@ const obtenerTask = async (req, res) => {
   const { id } = req.params;
   const ExisteTarea = await Task.findOne({ _id: id });
 
-  if (!ExisteTarea) {
-    const error = new Error("Tarea no existente");
-    return res.status(404).json({ msg: error.message });
-  }
+  // if (!ExisteTarea) {
+  //   const error = new Error("Tarea no existente");
+  //   return res.status(404).json({ msg: error.message });
+  // }
 
   return res.json(ExisteTarea);
 };
